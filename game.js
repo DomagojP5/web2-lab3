@@ -61,7 +61,6 @@ function keyDown(event) {
             break;
     }
 }
-    
 //funkcija za obradu otpustanja tipke
 function keyUp(event) {
     switch(event.keyCode) {
@@ -190,6 +189,26 @@ function pad(num, size) {
     return s;
 }
 
+function displayTimer(timer) {
+    //draw timer
+    ctx.font = "20px Georgia";
+    ctx.fillStyle = "white";
+    ctx.fillText("Timer:", canvas.width - 150, canvas.height * 0.15);
+    ctx.fillText(timer, canvas.width - 150, canvas.height * 0.18);
+}
+
+function displayBestTime() {
+    //dobivanje best time
+    if(!localStorage.getItem("score")) {
+        localStorage.setItem("score", 0)
+    }
+    var storageScore = +localStorage.getItem("score")
+    var bestTime = getTimeFromMs(storageScore)          
+    //crtanje best time
+    ctx.fillText("Best time:", canvas.width - 150, canvas.height * 0.06);
+    ctx.fillText(bestTime, canvas.width - 150, canvas.height * 0.09);
+}
+
 newGame() //pozivanje funkcije za pokretanje nove igre
 
 function update() {
@@ -203,46 +222,31 @@ function update() {
         inc += SECONDS_UNTIL_NEW_ASTEROID;
         asteroids.push(createAsteroid());
     }
-
+    
     //crtanje prostora
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, canvas.width, canvas.height)
     
-    //display timera i best time-aa
-    ctx.font = "20px Georgia";
-    ctx.fillStyle = "white";
-    ctx.fillText("Timer:", canvas.width - 150, canvas.height * 0.15);
-    ctx.fillText(timer, canvas.width - 150, canvas.height * 0.18);
-    //dobivanje best time
-    if(!localStorage.getItem("score")) {
-        localStorage.setItem("score", 0)
-    }
-    var storageScore = +localStorage.getItem("score")
-    var bestTime = getTimeFromMs(storageScore)          
-    //crtanje best time
-    ctx.fillText("Best time:", canvas.width - 150, canvas.height * 0.06);
-    ctx.fillText(bestTime, canvas.width - 150, canvas.height * 0.09);
-
     //crtanje broda
     drawShip();
-
+    
     //kretanje broda
     moveObject(ship)
 
     //detektiranje kolizije s rubom canvasa
     edgeCollisionDetection(ship)
-
+    
     //logika za asteroide
     for(var i = 0; i < asteroids.length; i++) {
         //crtanje asteroida: gradijent sive + siva 3D sjena
         drawAsteroid(asteroids[i]);
-
+        
         //micanje asteroida
         moveObject(asteroids[i]);
-
+        
         //kolizija asteroida s rubom canvasa
         edgeCollisionDetection(asteroids[i]);
-
+        
         //detekcija kolizije broda s asteroidima
         if(ship.x + ship.size >= asteroids[i].x &&
             ship.x <= asteroids[i].x + asteroids[i].size &&
@@ -252,5 +256,9 @@ function update() {
         }
 
     }
+    
+    //display timera i best time-aa
+    displayTimer(timer);
+    displayBestTime();
 
 }
