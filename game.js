@@ -1,4 +1,4 @@
-const FPS = 144;
+const FPS = 60;
 const CANVAS_WIDTH = window.innerWidth- 10;
 const CANVAS_HEIGHT = window.innerHeight- 10;
 const SHIP_SIZE = 30;
