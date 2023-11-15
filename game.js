@@ -3,11 +3,11 @@ const CANVAS_WIDTH = window.innerWidth- 10;
 const CANVAS_HEIGHT = window.innerHeight- 10;
 const SHIP_SIZE = 30;
 const SHIP_SPEED = 5;
-const ASTEROID_NUM = 10;
+const ASTEROID_NUM = 15;
 const ASTEROID_SPEED = 75;
 const ASTEROID_SIZE = 180;
 const ASTEROID_MIN_SIZE = 40;
-const SECONDS_UNTIL_NEW_ASTEROID = 5;
+const SECONDS_UNTIL_NEW_ASTEROID = 2;
 const RESTART_TIME = 3;
 
 //definicija canvasa
@@ -151,7 +151,7 @@ function createAsteroid() {
 
 function drawAsteroid(asteroid) {
     //kreiranje sivog gradijenta
-    var grd = ctx.createLinearGradient(asteroid.x, asteroid.y, asteroid.x + asteroid.size / 2, asteroid.y );
+    var grd = ctx.createLinearGradient(asteroid.x, asteroid.y, asteroid.x + asteroid.size / 2, asteroid.y);
     grd.addColorStop(0, "rgba(36, 36, 36, 1)");
     grd.addColorStop(0.33, "rgba(75, 75, 75, 1)");
     grd.addColorStop(0.66, "rgba(90, 90, 90, 1)");
