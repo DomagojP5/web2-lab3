@@ -44,20 +44,36 @@ function drawShip() {
 document.addEventListener("keydown", keyDown);
 document.addEventListener("keyup", keyUp);
 
+//mapiranje tipki sa svojstvom je li pritisnuto
+const keys = {
+    leftArrow: {
+        pressed: false,
+    },
+    upArrow: {
+        pressed: false,
+    },
+    rightArrow: {
+        pressed: false,
+    },
+    downArrow: {
+        pressed: false,
+    }
+}
+
 //funkcija za obradu pritiska tipke
 function keyDown(event) {
     switch(event.keyCode) {
         case 37:    //left arrow key 
-            ship.speed_x = -SHIP_SPEED;
+            keys.leftArrow.pressed = true;
             break;
         case 38:    //up arrow key 
-            ship.speed_y = -SHIP_SPEED;
+            keys.upArrow.pressed = true;
             break;
         case 39:    //right arrow key 
-            ship.speed_x = SHIP_SPEED;
+            keys.rightArrow.pressed = true;
             break;
         case 40:    //down arrow key
-            ship.speed_y = SHIP_SPEED;
+            keys.downArrow.pressed = true;
             break;
     }
 }
@@ -65,18 +81,44 @@ function keyDown(event) {
 function keyUp(event) {
     switch(event.keyCode) {
         case 37:    //left arrow key 
-            ship.speed_x = 0;
+            keys.leftArrow.pressed = false;
             break;
         case 38:    //up arrow key 
-            ship.speed_y = 0;
+            keys.upArrow.pressed = false;
             break;
         case 39:    //right arrow key 
-            ship.speed_x = 0;
+            keys.rightArrow.pressed = false;
             break;
         case 40:    //down arrow key
-            ship.speed_y = 0;
+            keys.downArrow.pressed = false;
             break;
     }
+}
+
+function setSpeed(ship) {
+    
+    //ako su pritisnute tipke u suprotnim smjerovima, brzina = 0;
+    if(keys.leftArrow.pressed && keys.rightArrow.pressed) {
+        ship.speed_x = 0;
+    } else if (keys.leftArrow.pressed) {
+        ship.speed_x = -SHIP_SPEED;
+    } else if (keys.rightArrow.pressed) {
+        ship.speed_x = SHIP_SPEED;
+    } else {
+        ship.speed_x = 0;
+    }
+
+    //ako su pritisnute tipke u suprotnim smjerovima, brzina = 0;
+    if(keys.upArrow.pressed && keys.downArrow.pressed) {
+        ship.speed_y = 0;
+    } else if (keys.upArrow.pressed) {
+        ship.speed_y = -SHIP_SPEED;
+    } else if (keys.downArrow.pressed) {
+        ship.speed_y = SHIP_SPEED;
+    } else {
+        ship.speed_y = 0;
+    }
+
 }
 
 //definicija asteroida
@@ -230,6 +272,9 @@ function update() {
     //crtanje broda
     drawShip();
     
+    //postavljanje brzine ovisno o pritisnutim tipkama
+    setSpeed(ship); 
+
     //kretanje broda
     moveObject(ship)
 
